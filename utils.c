@@ -6,7 +6,7 @@
 /*   By: rammisse <rammisse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/15 14:11:25 by rammisse          #+#    #+#             */
-/*   Updated: 2025/04/15 14:12:33 by rammisse         ###   ########.fr       */
+/*   Updated: 2025/04/20 00:08:56 by rammisse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,4 +62,24 @@ int	ispositive(t_data data, int ac)
 			return (0);
 	}
 	return (1);
+}
+
+int	checkdeath(t_data *info)
+{
+	pthread_mutex_lock(&info->death);
+	if (info->isdead == 1)
+		return (pthread_mutex_unlock(&info->death), 1);
+	pthread_mutex_unlock(&info->death);
+	return (0);
+}
+
+void	printstatus(t_philo philo, char *str)
+{
+	long	time;
+
+	time = getcurrenttime() - philo.data->starttime;
+	pthread_mutex_lock(&philo.data->printlock);
+	if (!checkdeath(philo.data))
+		printf("%ld %d %s\n", time, philo.id, str);
+	pthread_mutex_unlock(&philo.data->printlock);
 }

@@ -6,11 +6,33 @@
 /*   By: rammisse <rammisse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/27 10:35:06 by rammisse          #+#    #+#             */
-/*   Updated: 2025/04/15 14:16:25 by rammisse         ###   ########.fr       */
+/*   Updated: 2025/04/20 00:14:54 by rammisse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philosophers.h"
+
+size_t	getcurrenttime(void)
+{
+	struct timeval	tv;
+
+	gettimeofday(&tv, NULL);
+	return (tv.tv_sec * 1000 + tv.tv_usec / 1000);
+}
+
+void	ft_clear(t_data *data)
+{
+	int	i;
+
+	i = 0;
+	while (i < data->numofphilo)
+		pthread_mutex_destroy(&data->forks[i++]);
+	pthread_mutex_destroy(&data->eatmute);
+	pthread_mutex_destroy(&data->printlock);
+	pthread_mutex_destroy(&data->death);
+	free(data->forks);
+	free(data->philos);
+}
 
 void	init(t_data *data, char **av, int ac)
 {
@@ -21,25 +43,11 @@ void	init(t_data *data, char **av, int ac)
 	data->timetodie = ft_atoi(av[2]);
 	data->timetoeat = ft_atoi(av[3]);
 	data->timetosleep = ft_atoi(av[4]);
+	data->starttime = getcurrenttime();
+	data->isdead = 0;
 	if (ac == 6)
 		data->musteat = ft_atoi(av[5]);
-	data->forks = malloc(data->numofphilo * sizeof(pthread_mutex_t));
-	if (!data->forks)
-		return ;
-	while (i < data->numofphilo)
-		pthread_mutex_init(&data->forks[i++], NULL);
-	data->philos = malloc(data->numofphilo * sizeof(t_philo));
-	if (!data->philos)
-		return ;
-	i = 0;
-	while (i < data->numofphilo)
-	{
-		data->philos[i].left_fork = &data->forks[i];
-		data->philos[i].right_fork = &data->forks[(i + 1) % data->numofphilo];
-		i++;
-	}
 }
-
 
 int	parse(char **av)
 {
@@ -58,11 +66,22 @@ int	parse(char **av)
 int	main(int ac, char **av)
 {
 	t_data	data;
+	int		i;
 
+	i = 0;
 	if ((ac != 5 && ac != 6) || !parse(av))
 		return (printf("Invalid arguments !"), 0);
 	init(&data, av, ac);
 	if (!ispositive(data, ac))
 		return (0);
+	initphilos(&data);
+	ft_usleep(1000);
+	pthread_join(data.monitor, NULL);
+	while (i < data.numofphilo)
+	{
+		pthread_join(data.philos[i].threads, NULL);
+		i++;
+	}
+	ft_clear(&data);
 	return (0);
 }
