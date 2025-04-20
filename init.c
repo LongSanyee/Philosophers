@@ -6,7 +6,7 @@
 /*   By: rammisse <rammisse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/17 10:45:44 by rammisse          #+#    #+#             */
-/*   Updated: 2025/04/20 00:31:02 by rammisse         ###   ########.fr       */
+/*   Updated: 2025/04/20 11:41:37 by rammisse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,16 +88,14 @@ void	*monitor(void *arg)
 			{
 				pthread_mutex_unlock(&data->eatmute);
 				printstatus(data->philos[i++], "died");
-				pthread_mutex_lock(&data->death);
-				data->isdead = 1;
-				pthread_mutex_unlock(&data->death);
-				return (NULL);
+				return (setisdie(data), NULL);
 			}
 			pthread_mutex_unlock(&data->eatmute);
-			if (data->musteat == data->philos->eatcount)
-				return (NULL);
+			pthread_mutex_lock(&data->eatmute);
+			if (data->musteat == data->philos[i].eatcount)
+				return (pthread_mutex_unlock(&data->eatmute), NULL);
+			pthread_mutex_unlock(&data->eatmute);
 		}
-		usleep(100);
+		usleep(200);
 	}
-	return (NULL);
 }

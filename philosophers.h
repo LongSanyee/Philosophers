@@ -6,7 +6,7 @@
 /*   By: rammisse <rammisse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/12 17:28:38 by rammisse          #+#    #+#             */
-/*   Updated: 2025/04/20 00:07:07 by rammisse         ###   ########.fr       */
+/*   Updated: 2025/04/20 11:37:28 by rammisse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,5 +62,6 @@ void	printstatus(t_philo philo, char *str);
 void	*monitor(void *arg);
 void	ft_clear(t_data *data);
 int		checkdeath(t_data *info);
+void	setisdie(t_data *data);
 
 #endif

@@ -1,4 +1,4 @@
-SRC = main.c utils.c routine.c init.c
+SRC = main.c utils.c routine.c init.c norm.c
 
 CC = cc
 

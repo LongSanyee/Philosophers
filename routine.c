@@ -6,7 +6,7 @@
 /*   By: rammisse <rammisse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/13 14:33:22 by rammisse          #+#    #+#             */
-/*   Updated: 2025/04/20 00:30:16 by rammisse         ###   ########.fr       */
+/*   Updated: 2025/04/20 11:26:40 by rammisse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,11 +46,12 @@ void	*routine(void *arg)
 	philo = (t_philo *)arg;
 	while (1)
 	{
+		if (philo->eatcount == philo->data->musteat)
+			return (NULL);
 		if (checkdeath(philo->data))
 			return (NULL);
 		if (philo->id % 2 == 0)
 		{
-			usleep(20);
 			pick_up(philo->right_fork, philo);
 			pick_up(philo->left_fork, philo);
 		}
@@ -64,8 +65,5 @@ void	*routine(void *arg)
 		ft_eat(philo);
 		ft_sleep(*philo);
 		ft_think(*philo);
-		if (philo->eatcount == philo->data->musteat)
-			return (NULL);
 	}
-	return (NULL);
 }
