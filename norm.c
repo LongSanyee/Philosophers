@@ -6,7 +6,7 @@
 /*   By: rammisse <rammisse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/20 11:34:59 by rammisse          #+#    #+#             */
-/*   Updated: 2025/04/20 20:14:48 by rammisse         ###   ########.fr       */
+/*   Updated: 2025/04/20 21:20:17 by rammisse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,11 +27,11 @@ int	checkallate(t_data *data)
 	if (data->musteat > 0)
 	{
 		all_ate = 1;
-		i = 0;
-		while (i < data->numofphilo)
+		i = -1;
+		while (++i < data->numofphilo)
 		{
 			pthread_mutex_lock(&data->eatmute);
-			if (data->philos[i++].eatcount < data->musteat)
+			if (data->philos[i].eatcount < data->musteat)
 				all_ate = 0;
 			pthread_mutex_unlock(&data->eatmute);
 		}
@@ -39,4 +39,20 @@ int	checkallate(t_data *data)
 			return (0);
 	}
 	return (1);
+}
+
+void	pick_up(t_philo *philo)
+{
+	pthread_mutex_lock(philo->left_fork);
+	printstatus(*philo, "has taken a fork");
+	pthread_mutex_lock(philo->right_fork);
+	printstatus(*philo, "has taken a fork");
+}
+
+void	pickup2(t_philo *philo)
+{
+	pthread_mutex_lock(philo->right_fork);
+	printstatus(*philo, "has taken a fork");
+	pthread_mutex_lock(philo->left_fork);
+	printstatus(*philo, "has taken a fork");
 }

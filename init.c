@@ -6,7 +6,7 @@
 /*   By: rammisse <rammisse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/17 10:45:44 by rammisse          #+#    #+#             */
-/*   Updated: 2025/04/20 20:19:04 by rammisse         ###   ########.fr       */
+/*   Updated: 2025/04/20 20:58:40 by rammisse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,12 +87,13 @@ void	*monitor(void *arg)
 			{
 				pthread_mutex_unlock(&data->eatmute);
 				printstatus(data->philos[i], "died");
-				return (setisdie(data), NULL);
+				setisdie(data);
+				return (NULL);
 			}
 			pthread_mutex_unlock(&data->eatmute);
 		}
 		if (!checkallate(data))
 			return (NULL);
-		usleep(500);
+		usleep(1000);
 	}
 }
