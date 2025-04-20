@@ -6,7 +6,7 @@
 /*   By: rammisse <rammisse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/13 14:33:22 by rammisse          #+#    #+#             */
-/*   Updated: 2025/04/20 11:26:40 by rammisse         ###   ########.fr       */
+/*   Updated: 2025/04/20 12:39:36 by rammisse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,17 +52,17 @@ void	*routine(void *arg)
 			return (NULL);
 		if (philo->id % 2 == 0)
 		{
-			pick_up(philo->right_fork, philo);
 			pick_up(philo->left_fork, philo);
+			pick_up(philo->right_fork, philo);
 		}
 		else
 		{
-			pick_up(philo->left_fork, philo);
 			pick_up(philo->right_fork, philo);
+			pick_up(philo->left_fork, philo);
 		}
+		ft_eat(philo);
 		pthread_mutex_unlock(philo->left_fork);
 		pthread_mutex_unlock(philo->right_fork);
-		ft_eat(philo);
 		ft_sleep(*philo);
 		ft_think(*philo);
 	}
