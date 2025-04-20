@@ -6,7 +6,7 @@
 /*   By: rammisse <rammisse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/17 10:45:44 by rammisse          #+#    #+#             */
-/*   Updated: 2025/04/20 11:41:37 by rammisse         ###   ########.fr       */
+/*   Updated: 2025/04/20 20:14:45 by rammisse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,8 +56,8 @@ void	initphilos(t_data *data)
 	data->philos = malloc(data->numofphilo * sizeof(t_philo));
 	if (!data->philos)
 		return ;
-	i = 0;
-	while (i < data->numofphilo)
+	i = -1;
+	while (++i < data->numofphilo)
 	{
 		data->philos[i].data = data;
 		data->philos[i].id = i + 1;
@@ -65,7 +65,6 @@ void	initphilos(t_data *data)
 		data->philos[i].left_fork = &data->forks[(i + 1) % data->numofphilo];
 		data->philos[i].lastmeal = data->starttime;
 		data->philos[i].eatcount = 0;
-		i++;
 	}
 	inithelp(data);
 	pthread_create(&data->monitor, NULL, monitor, data);
@@ -87,15 +86,13 @@ void	*monitor(void *arg)
 				> (size_t)data->timetodie)
 			{
 				pthread_mutex_unlock(&data->eatmute);
-				printstatus(data->philos[i++], "died");
+				printstatus(data->philos[i], "died");
 				return (setisdie(data), NULL);
 			}
 			pthread_mutex_unlock(&data->eatmute);
-			pthread_mutex_lock(&data->eatmute);
-			if (data->musteat == data->philos[i].eatcount)
-				return (pthread_mutex_unlock(&data->eatmute), NULL);
-			pthread_mutex_unlock(&data->eatmute);
 		}
-		usleep(200);
+		if (!checkallate(data))
+			return (NULL);
+		usleep(500);
 	}
 }

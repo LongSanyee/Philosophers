@@ -6,7 +6,7 @@
 /*   By: rammisse <rammisse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/12 17:28:38 by rammisse          #+#    #+#             */
-/*   Updated: 2025/04/20 13:03:07 by rammisse         ###   ########.fr       */
+/*   Updated: 2025/04/20 20:14:58 by rammisse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,5 +63,6 @@ void	*monitor(void *arg);
 void	ft_clear(t_data *data);
 int		checkdeath(t_data *info);
 void	setisdie(t_data *data);
+int		checkallate(t_data *data);
 
 #endif

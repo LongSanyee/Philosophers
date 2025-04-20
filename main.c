@@ -6,7 +6,7 @@
 /*   By: rammisse <rammisse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/27 10:35:06 by rammisse          #+#    #+#             */
-/*   Updated: 2025/04/20 00:14:54 by rammisse         ###   ########.fr       */
+/*   Updated: 2025/04/20 19:44:07 by rammisse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,7 +75,6 @@ int	main(int ac, char **av)
 	if (!ispositive(data, ac))
 		return (0);
 	initphilos(&data);
-	ft_usleep(1000);
 	pthread_join(data.monitor, NULL);
 	while (i < data.numofphilo)
 	{
