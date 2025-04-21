@@ -6,7 +6,7 @@
 /*   By: rammisse <rammisse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/17 10:45:44 by rammisse          #+#    #+#             */
-/*   Updated: 2025/04/21 14:44:39 by rammisse         ###   ########.fr       */
+/*   Updated: 2025/04/21 15:42:36 by rammisse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,7 @@ void	initmutex(t_data *data)
 	pthread_mutex_init(&data->printlock, NULL);
 	pthread_mutex_init(&data->death, NULL);
 	pthread_mutex_init(&data->stop, NULL);
+	data->starttime = getcurrenttime();
 }
 
 void	initphilos(t_data *data)
@@ -84,11 +85,12 @@ void	*monitor(void *arg)
 		while (i < data->numofphilo)
 		{
 			pthread_mutex_lock(&data->eatmute);
-			if (getcurrenttime() - data->philos[i].lastmeal > data->timetodie)
+			if (data->philos[i].allate == 1 && getcurrenttime()
+				- data->philos[i].lastmeal > data->timetodie)
 			{
-				setisdie(data);
-				printstatus(data->philos[i], "died");
 				pthread_mutex_unlock(&data->eatmute);
+				printstatus(data->philos[i], "died");
+				setisdie(data);
 				return (NULL);
 			}
 			pthread_mutex_unlock(&data->eatmute);

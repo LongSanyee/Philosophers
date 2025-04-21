@@ -6,7 +6,7 @@
 /*   By: rammisse <rammisse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/15 14:11:25 by rammisse          #+#    #+#             */
-/*   Updated: 2025/04/20 22:31:41 by rammisse         ###   ########.fr       */
+/*   Updated: 2025/04/21 15:20:18 by rammisse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,11 +55,11 @@ int	ispositive(t_data data, int ac)
 {
 	if (data.numofphilo <= 0 || data.timetodie <= 0 || data.timetoeat <= 0
 		|| data.timetosleep <= 0)
-		return (0);
+		return (printf("Invalid Arguments !\n"), 0);
 	if (ac == 6)
 	{
 		if (data.musteat <= 0)
-			return (0);
+			return (printf("Invalid Arguments !\n"), 0);
 	}
 	return (1);
 }
