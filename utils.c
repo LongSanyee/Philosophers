@@ -6,7 +6,7 @@
 /*   By: rammisse <rammisse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/15 14:11:25 by rammisse          #+#    #+#             */
-/*   Updated: 2025/04/20 00:08:56 by rammisse         ###   ########.fr       */
+/*   Updated: 2025/04/20 22:31:41 by rammisse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,9 +77,9 @@ void	printstatus(t_philo philo, char *str)
 {
 	long	time;
 
-	time = getcurrenttime() - philo.data->starttime;
 	pthread_mutex_lock(&philo.data->printlock);
-	if (!checkdeath(philo.data))
+	time = getcurrenttime() - philo.data->starttime;
+	if (checkdeath(philo.data) == 0)
 		printf("%ld %d %s\n", time, philo.id, str);
 	pthread_mutex_unlock(&philo.data->printlock);
 }

@@ -6,7 +6,7 @@
 /*   By: rammisse <rammisse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/17 10:45:44 by rammisse          #+#    #+#             */
-/*   Updated: 2025/04/20 20:58:40 by rammisse         ###   ########.fr       */
+/*   Updated: 2025/04/21 14:44:39 by rammisse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,7 @@ void	initmutex(t_data *data)
 	pthread_mutex_init(&data->eatmute, NULL);
 	pthread_mutex_init(&data->printlock, NULL);
 	pthread_mutex_init(&data->death, NULL);
+	pthread_mutex_init(&data->stop, NULL);
 }
 
 void	initphilos(t_data *data)
@@ -65,6 +66,7 @@ void	initphilos(t_data *data)
 		data->philos[i].left_fork = &data->forks[(i + 1) % data->numofphilo];
 		data->philos[i].lastmeal = data->starttime;
 		data->philos[i].eatcount = 0;
+		data->philos[i].allate = 1;
 	}
 	inithelp(data);
 	pthread_create(&data->monitor, NULL, monitor, data);
@@ -78,22 +80,22 @@ void	*monitor(void *arg)
 	data = (t_data *)arg;
 	while (1)
 	{
-		i = -1;
-		while (++i < data->numofphilo)
+		i = 0;
+		while (i < data->numofphilo)
 		{
 			pthread_mutex_lock(&data->eatmute);
-			if (getcurrenttime() - data->philos[i].lastmeal
-				> (size_t)data->timetodie)
+			if (getcurrenttime() - data->philos[i].lastmeal > data->timetodie)
 			{
-				pthread_mutex_unlock(&data->eatmute);
-				printstatus(data->philos[i], "died");
 				setisdie(data);
+				printstatus(data->philos[i], "died");
+				pthread_mutex_unlock(&data->eatmute);
 				return (NULL);
 			}
 			pthread_mutex_unlock(&data->eatmute);
+			i++;
 		}
-		if (!checkallate(data))
+		if (checkallate(data))
 			return (NULL);
-		usleep(1000);
+		usleep(100);
 	}
 }

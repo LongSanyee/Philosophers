@@ -6,7 +6,7 @@
 /*   By: rammisse <rammisse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/12 17:28:38 by rammisse          #+#    #+#             */
-/*   Updated: 2025/04/20 21:20:11 by rammisse         ###   ########.fr       */
+/*   Updated: 2025/04/21 14:42:35 by rammisse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,7 @@ typedef struct s_philo
 	pthread_mutex_t	*left_fork;
 	pthread_mutex_t	*right_fork;
 	int				id;
+	int				allate;
 	size_t			lastmeal;
 	int				eatcount;
 	t_data			*data;
@@ -39,11 +40,12 @@ typedef struct s_data
 	pthread_mutex_t	printlock;
 	pthread_mutex_t	eatmute;
 	pthread_mutex_t	death;
+	pthread_mutex_t	stop;
 	pthread_t		monitor;
 	pthread_mutex_t	*forks;
 	size_t			starttime;
 	int				numofphilo;
-	int				timetodie;
+	size_t			timetodie;
 	int				timetosleep;
 	int				timetoeat;
 	int				musteat;
