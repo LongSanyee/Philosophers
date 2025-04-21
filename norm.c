@@ -6,7 +6,7 @@
 /*   By: rammisse <rammisse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/20 11:34:59 by rammisse          #+#    #+#             */
-/*   Updated: 2025/04/21 14:07:03 by rammisse         ###   ########.fr       */
+/*   Updated: 2025/04/21 16:53:09 by rammisse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,4 +33,10 @@ void	pickup2(t_philo *philo)
 	printstatus(*philo, "has taken a fork");
 	pthread_mutex_lock(philo->right_fork);
 	printstatus(*philo, "has taken a fork");
+}
+
+void	unlockmutex(t_data *data)
+{
+	pthread_mutex_unlock(&data->stop);
+	pthread_mutex_unlock(&data->eatmute);
 }
