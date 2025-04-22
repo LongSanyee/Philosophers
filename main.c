@@ -6,7 +6,7 @@
 /*   By: rammisse <rammisse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/27 10:35:06 by rammisse          #+#    #+#             */
-/*   Updated: 2025/04/21 15:10:21 by rammisse         ###   ########.fr       */
+/*   Updated: 2025/04/22 13:44:51 by rammisse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,7 @@ void	ft_clear(t_data *data)
 	pthread_mutex_destroy(&data->eatmute);
 	pthread_mutex_destroy(&data->printlock);
 	pthread_mutex_destroy(&data->death);
+	pthread_mutex_destroy(&data->stop);
 	free(data->forks);
 	free(data->philos);
 }

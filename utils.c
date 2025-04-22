@@ -6,7 +6,7 @@
 /*   By: rammisse <rammisse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/15 14:11:25 by rammisse          #+#    #+#             */
-/*   Updated: 2025/04/21 15:20:18 by rammisse         ###   ########.fr       */
+/*   Updated: 2025/04/22 13:52:58 by rammisse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@ int	ft_atoi(char *str)
 {
 	int	i;
 	int	sign;
+	int	old_result;
 	int	result;
 
 	sign = 1;
@@ -31,7 +32,10 @@ int	ft_atoi(char *str)
 	}
 	while (str[i] >= '0' && str[i] <= '9')
 	{
+		old_result = result;
 		result = result * 10 + str[i] - '0';
+		if (old_result != result / 10)
+			return (0);
 		i++;
 	}
 	return (result * sign);
