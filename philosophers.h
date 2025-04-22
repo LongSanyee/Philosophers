@@ -6,7 +6,7 @@
 /*   By: rammisse <rammisse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/12 17:28:38 by rammisse          #+#    #+#             */
-/*   Updated: 2025/04/21 16:52:27 by rammisse         ###   ########.fr       */
+/*   Updated: 2025/04/22 16:12:54 by rammisse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,6 +50,7 @@ typedef struct s_data
 	int				timetoeat;
 	int				musteat;
 	int				isdead;
+	int				ac;
 
 }	t_data;
 
