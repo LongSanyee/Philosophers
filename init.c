@@ -6,7 +6,7 @@
 /*   By: rammisse <rammisse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/17 10:45:44 by rammisse          #+#    #+#             */
-/*   Updated: 2025/04/21 16:53:04 by rammisse         ###   ########.fr       */
+/*   Updated: 2025/04/30 17:19:22 by rammisse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,7 +96,7 @@ void	*monitor(void *arg)
 			}
 			unlockmutex(data);
 		}
-		if (checkallate(data))
+		if (checkallate(data) || checkdeath(data))
 			return (NULL);
 		usleep(100);
 	}
