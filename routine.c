@@ -6,7 +6,7 @@
 /*   By: rammisse <rammisse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/13 14:33:22 by rammisse          #+#    #+#             */
-/*   Updated: 2025/04/26 15:47:58 by rammisse         ###   ########.fr       */
+/*   Updated: 2025/06/03 12:07:39 by rammisse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,14 @@ void	ft_eat(t_philo *philo)
 		pick_up(philo);
 	else
 		pickup2(philo);
-	printstatus(*philo, "is eating");
+	if (checkdeath(philo->data))
+	{
+		pthread_mutex_unlock(philo->left_fork);
+		pthread_mutex_unlock(philo->right_fork);
+		return ;
+	}
+	if (!checkdeath(philo->data))
+		printstatus(*philo, "is eating");
 	pthread_mutex_lock(&philo->data->eatmute);
 	philo->lastmeal = getcurrenttime();
 	if (philo->data->ac == 6)
@@ -27,9 +34,15 @@ void	ft_eat(t_philo *philo)
 	ft_usleep(philo->data->timetoeat);
 	pthread_mutex_unlock(philo->left_fork);
 	pthread_mutex_unlock(philo->right_fork);
-	printstatus(*philo, "is sleeping");
+	if (checkdeath(philo->data))
+		return ;
+	if (!checkdeath(philo->data))
+		printstatus(*philo, "is sleeping");
 	ft_usleep(philo->data->timetosleep);
-	printstatus(*philo, "is thinking");
+	if (!checkdeath(philo->data))
+		printstatus(*philo, "is thinking");
+	if (checkdeath(philo->data))
+		return ;
 }
 
 int	checkallate(t_data *data)
@@ -42,7 +55,7 @@ int	checkallate(t_data *data)
 	while (i < data->numofphilo)
 	{
 		pthread_mutex_lock(&data->stop);
-		if (data->philos[i].allate == 0)
+		if (data->philos[i].allate == 1)
 			res++;
 		pthread_mutex_unlock(&data->stop);
 		i++;
@@ -61,7 +74,8 @@ void	*routine(void *arg)
 	{
 		pthread_mutex_lock(philo->right_fork);
 		printstatus(*philo, "has taken a fork");
-		ft_usleep(philo->data->timetodie);
+		printstatus(*philo, "died");
+		ft_usleep(philo->data->timetosleep);
 		return (pthread_mutex_unlock(philo->right_fork), NULL);
 	}
 	while (!checkdeath(philo->data))
@@ -70,7 +84,7 @@ void	*routine(void *arg)
 		if (philo->eatcount == philo->data->musteat)
 		{
 			pthread_mutex_lock(&philo->data->stop);
-			philo->allate = 0;
+			philo->allate = 1;
 			pthread_mutex_unlock(&philo->data->stop);
 		}
 		if (checkdeath(philo->data) || checkallate(philo->data))

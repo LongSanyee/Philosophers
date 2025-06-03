@@ -6,7 +6,7 @@
 /*   By: rammisse <rammisse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/27 10:35:06 by rammisse          #+#    #+#             */
-/*   Updated: 2025/04/24 19:43:12 by rammisse         ###   ########.fr       */
+/*   Updated: 2025/06/03 11:25:45 by rammisse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,9 +37,6 @@ void	ft_clear(t_data *data)
 
 void	init(t_data *data, char **av, int ac)
 {
-	int	i;
-
-	i = 0;
 	data->numofphilo = ft_atoi(av[1]);
 	data->timetodie = ft_atoi(av[2]);
 	data->timetoeat = ft_atoi(av[3]);

@@ -6,7 +6,7 @@
 /*   By: rammisse <rammisse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/17 10:45:44 by rammisse          #+#    #+#             */
-/*   Updated: 2025/04/30 17:19:22 by rammisse         ###   ########.fr       */
+/*   Updated: 2025/06/03 12:05:01 by rammisse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,7 @@ void	initphilos(t_data *data)
 		data->philos[i].left_fork = &data->forks[(i + 1) % data->numofphilo];
 		data->philos[i].lastmeal = data->starttime;
 		data->philos[i].eatcount = 0;
-		data->philos[i].allate = 1;
+		data->philos[i].allate = 0;
 	}
 	inithelp(data);
 	pthread_create(&data->monitor, NULL, monitor, data);
@@ -86,11 +86,11 @@ void	*monitor(void *arg)
 		{
 			pthread_mutex_lock(&data->eatmute);
 			pthread_mutex_lock(&data->stop);
-			if (data->philos[i].allate == 1 && getcurrenttime()
-				- data->philos[i].lastmeal > data->timetodie)
+			if (getcurrenttime() - data->philos[i].lastmeal > data->timetodie)
 			{
-				printstatus(data->philos[i], "died");
 				setisdie(data);
+				printf("%ld %d died\n", getcurrenttime()
+					- data->starttime, data->philos[i].id);
 				return (pthread_mutex_unlock(&data->stop),
 					pthread_mutex_unlock(&data->eatmute), NULL);
 			}
@@ -98,6 +98,6 @@ void	*monitor(void *arg)
 		}
 		if (checkallate(data) || checkdeath(data))
 			return (NULL);
-		usleep(100);
+		usleep(1000);
 	}
 }
