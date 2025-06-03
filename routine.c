@@ -6,7 +6,7 @@
 /*   By: rammisse <rammisse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/13 14:33:22 by rammisse          #+#    #+#             */
-/*   Updated: 2025/06/03 14:24:14 by rammisse         ###   ########.fr       */
+/*   Updated: 2025/06/03 16:06:08 by rammisse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,41 +35,18 @@ void	ft_eat(t_philo *philo)
 		pthread_mutex_unlock(philo->right_fork);
 		return ;
 	}
-	if (!checkdeath(philo->data))
-		printstatus(*philo, "is eating");
+	printstatus(*philo, "is eating");
 	pthread_mutex_lock(&philo->data->eatmute);
 	philo->lastmeal = getcurrenttime();
 	if (philo->data->ac == 6)
 		philo->eatcount++;
 	if (ft_eathelp(philo) == 1)
 		return ;
-	if (!checkdeath(philo->data))
-		printstatus(*philo, "is sleeping");
+	printstatus(*philo, "is sleeping");
 	ft_usleep(philo->data->timetosleep);
-	if (!checkdeath(philo->data))
-		printstatus(*philo, "is thinking");
+	printstatus(*philo, "is thinking");
 	if (checkdeath(philo->data))
 		return ;
-}
-
-int	checkallate(t_data *data)
-{
-	int	i;
-	int	res;
-
-	res = 0;
-	i = 0;
-	while (i < data->numofphilo)
-	{
-		pthread_mutex_lock(&data->stop);
-		if (data->philos[i].allate == 1)
-			res++;
-		pthread_mutex_unlock(&data->stop);
-		i++;
-	}
-	if (res == data->numofphilo)
-		return (1);
-	return (0);
 }
 
 void	*routine(void *arg)
@@ -91,11 +68,10 @@ void	*routine(void *arg)
 		if (philo->eatcount == philo->data->musteat)
 		{
 			pthread_mutex_lock(&philo->data->stop);
-			philo->allate = 1;
+			philo->data->mustfinish = 1;
 			pthread_mutex_unlock(&philo->data->stop);
-		}
-		if (checkdeath(philo->data) || checkallate(philo->data))
 			return (NULL);
+		}
 	}
 	return (NULL);
 }

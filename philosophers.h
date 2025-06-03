@@ -6,7 +6,7 @@
 /*   By: rammisse <rammisse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/12 17:28:38 by rammisse          #+#    #+#             */
-/*   Updated: 2025/05/21 15:41:32 by rammisse         ###   ########.fr       */
+/*   Updated: 2025/06/03 15:52:34 by rammisse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,6 +49,7 @@ typedef struct s_data
 	int				timetosleep;
 	int				timetoeat;
 	int				musteat;
+	int				mustfinish;
 	int				isdead;
 	int				ac;
 

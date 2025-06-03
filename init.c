@@ -6,7 +6,7 @@
 /*   By: rammisse <rammisse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/17 10:45:44 by rammisse          #+#    #+#             */
-/*   Updated: 2025/06/03 12:26:01 by rammisse         ###   ########.fr       */
+/*   Updated: 2025/06/03 16:00:57 by rammisse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,7 +86,11 @@ void	*monitor(void *arg)
 		{
 			pthread_mutex_lock(&data->eatmute);
 			pthread_mutex_lock(&data->stop);
-			if (getcurrenttime() - data->philos[i].lastmeal > data->timetodie)
+			if (data->mustfinish == 1)
+				return (pthread_mutex_unlock(&data->stop),
+					pthread_mutex_unlock(&data->eatmute), NULL);
+			else if (getcurrenttime() - data->philos[i].lastmeal
+				> data->timetodie)
 			{
 				setisdie(data);
 				printf("%ld %d died\n", getcurrenttime()
@@ -96,7 +100,7 @@ void	*monitor(void *arg)
 			}
 			unlockmutex(data);
 		}
-		if (checkallate(data) || checkdeath(data))
+		if (checkdeath(data))
 			return (NULL);
 		usleep(1000);
 	}

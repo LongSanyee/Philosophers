@@ -6,7 +6,7 @@
 /*   By: rammisse <rammisse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/27 10:35:06 by rammisse          #+#    #+#             */
-/*   Updated: 2025/06/03 13:45:19 by rammisse         ###   ########.fr       */
+/*   Updated: 2025/06/03 15:53:12 by rammisse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,7 @@ void	init(t_data *data, char **av, int ac)
 	data->timetoeat = ft_atoi(av[3]);
 	data->timetosleep = ft_atoi(av[4]);
 	data->isdead = 0;
+	data->mustfinish = 0;
 	data->ac = ac;
 	if (ac == 6)
 		data->musteat = ft_atoi(av[5]);
