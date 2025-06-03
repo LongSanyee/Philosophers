@@ -6,7 +6,7 @@
 /*   By: rammisse <rammisse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/27 10:35:06 by rammisse          #+#    #+#             */
-/*   Updated: 2025/06/03 11:25:45 by rammisse         ###   ########.fr       */
+/*   Updated: 2025/06/03 13:45:19 by rammisse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,10 @@ int	main(int ac, char **av)
 
 	i = 0;
 	if ((ac != 5 && ac != 6) || !parse(av))
-		return (printf("Invalid arguments !"), 0);
+	{
+		write(2, "Invalid arguments !", 20);
+		return (0);
+	}
 	init(&data, av, ac);
 	if (!ispositive(data, ac))
 		return (0);

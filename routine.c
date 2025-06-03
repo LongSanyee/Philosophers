@@ -6,11 +6,22 @@
 /*   By: rammisse <rammisse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/13 14:33:22 by rammisse          #+#    #+#             */
-/*   Updated: 2025/06/03 12:07:39 by rammisse         ###   ########.fr       */
+/*   Updated: 2025/06/03 14:24:14 by rammisse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philosophers.h"
+
+int	ft_eathelp(t_philo *philo)
+{
+	pthread_mutex_unlock(&philo->data->eatmute);
+	ft_usleep(philo->data->timetoeat);
+	pthread_mutex_unlock(philo->left_fork);
+	pthread_mutex_unlock(philo->right_fork);
+	if (checkdeath(philo->data))
+		return (1);
+	return (0);
+}
 
 void	ft_eat(t_philo *philo)
 {
@@ -30,11 +41,7 @@ void	ft_eat(t_philo *philo)
 	philo->lastmeal = getcurrenttime();
 	if (philo->data->ac == 6)
 		philo->eatcount++;
-	pthread_mutex_unlock(&philo->data->eatmute);
-	ft_usleep(philo->data->timetoeat);
-	pthread_mutex_unlock(philo->left_fork);
-	pthread_mutex_unlock(philo->right_fork);
-	if (checkdeath(philo->data))
+	if (ft_eathelp(philo) == 1)
 		return ;
 	if (!checkdeath(philo->data))
 		printstatus(*philo, "is sleeping");
