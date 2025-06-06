@@ -6,7 +6,7 @@
 /*   By: rammisse <rammisse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/20 11:34:59 by rammisse          #+#    #+#             */
-/*   Updated: 2025/05/12 15:05:18 by rammisse         ###   ########.fr       */
+/*   Updated: 2025/06/04 18:17:56 by rammisse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,15 @@ void	pickup2(t_philo *philo)
 
 void	unlockmutex(t_data *data)
 {
+	pthread_mutex_unlock(&data->stop);
+	pthread_mutex_unlock(&data->eatmute);
+}
+
+void	monitorhelp(t_data *data, int i)
+{
+	setisdie(data);
+	printf("%ld %d died\n", getcurrenttime()
+		- data->starttime, data->philos[i].id);
 	pthread_mutex_unlock(&data->stop);
 	pthread_mutex_unlock(&data->eatmute);
 }

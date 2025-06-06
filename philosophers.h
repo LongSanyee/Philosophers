@@ -6,7 +6,7 @@
 /*   By: rammisse <rammisse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/12 17:28:38 by rammisse          #+#    #+#             */
-/*   Updated: 2025/06/03 15:52:34 by rammisse         ###   ########.fr       */
+/*   Updated: 2025/06/06 01:04:49 by rammisse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,6 @@ typedef struct s_philo
 	pthread_mutex_t	*left_fork;
 	pthread_mutex_t	*right_fork;
 	int				id;
-	int				allate;
 	size_t			lastmeal;
 	int				eatcount;
 	t_data			*data;
@@ -61,7 +60,7 @@ int		ispositive(t_data data, int ac);
 size_t	getcurrenttime(void);
 void	*routine(void *arg);
 void	initphilos(t_data *data);
-void	ft_usleep(size_t num);
+void	ft_usleep(size_t num, t_data *data);
 void	printstatus(t_philo philo, char *str);
 void	*monitor(void *arg);
 void	ft_clear(t_data *data);
@@ -70,6 +69,6 @@ void	setisdie(t_data *data);
 void	pick_up(t_philo *philo);
 void	unlockmutex(t_data *data);
 void	pickup2(t_philo *philo);
-int		checkallate(t_data *data);
+void	monitorhelp(t_data *data, int i);
 
 #endif

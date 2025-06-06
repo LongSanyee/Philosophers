@@ -2,7 +2,7 @@ SRC = main.c utils.c routine.c init.c norm.c
 
 CC = cc
 
-CFLAGS = -Wall -Werror -Wextra
+CFLAGS = -Wall -Werror -Wextra -fsanitize=thread -g3
 
 OBJ = $(SRC:.c=.o)
 

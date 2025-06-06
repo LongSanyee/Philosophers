@@ -6,19 +6,23 @@
 /*   By: rammisse <rammisse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/17 10:45:44 by rammisse          #+#    #+#             */
-/*   Updated: 2025/06/03 16:00:57 by rammisse         ###   ########.fr       */
+/*   Updated: 2025/06/06 01:05:07 by rammisse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philosophers.h"
 
-void	ft_usleep(size_t num)
+void	ft_usleep(size_t num, t_data *data)
 {
 	size_t	start;
 
 	start = getcurrenttime();
 	while (getcurrenttime() - start < num)
+	{
+		if (checkdeath(data))
+			return ;
 		usleep(333);
+	}
 }
 
 void	inithelp(t_data *data)
@@ -67,10 +71,10 @@ void	initphilos(t_data *data)
 		data->philos[i].left_fork = &data->forks[(i + 1) % data->numofphilo];
 		data->philos[i].lastmeal = data->starttime;
 		data->philos[i].eatcount = 0;
-		data->philos[i].allate = 0;
 	}
 	inithelp(data);
-	pthread_create(&data->monitor, NULL, monitor, data);
+	if (pthread_create(&data->monitor, NULL, monitor, data) != 0)
+		return ;
 }
 
 void	*monitor(void *arg)
@@ -92,16 +96,12 @@ void	*monitor(void *arg)
 			else if (getcurrenttime() - data->philos[i].lastmeal
 				> data->timetodie)
 			{
-				setisdie(data);
-				printf("%ld %d died\n", getcurrenttime()
-					- data->starttime, data->philos[i].id);
-				return (pthread_mutex_unlock(&data->stop),
-					pthread_mutex_unlock(&data->eatmute), NULL);
+				return (monitorhelp(data, i), NULL);
 			}
 			unlockmutex(data);
 		}
 		if (checkdeath(data))
 			return (NULL);
-		usleep(1000);
+		usleep(10000);
 	}
 }

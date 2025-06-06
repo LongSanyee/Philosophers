@@ -6,7 +6,7 @@
 /*   By: rammisse <rammisse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/13 14:33:22 by rammisse          #+#    #+#             */
-/*   Updated: 2025/06/03 16:06:08 by rammisse         ###   ########.fr       */
+/*   Updated: 2025/06/06 01:02:56 by rammisse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 int	ft_eathelp(t_philo *philo)
 {
 	pthread_mutex_unlock(&philo->data->eatmute);
-	ft_usleep(philo->data->timetoeat);
+	ft_usleep(philo->data->timetoeat, philo->data);
 	pthread_mutex_unlock(philo->left_fork);
 	pthread_mutex_unlock(philo->right_fork);
 	if (checkdeath(philo->data))
@@ -43,7 +43,7 @@ void	ft_eat(t_philo *philo)
 	if (ft_eathelp(philo) == 1)
 		return ;
 	printstatus(*philo, "is sleeping");
-	ft_usleep(philo->data->timetosleep);
+	ft_usleep(philo->data->timetosleep, philo->data);
 	printstatus(*philo, "is thinking");
 	if (checkdeath(philo->data))
 		return ;
@@ -59,7 +59,7 @@ void	*routine(void *arg)
 		pthread_mutex_lock(philo->right_fork);
 		printstatus(*philo, "has taken a fork");
 		printstatus(*philo, "died");
-		ft_usleep(philo->data->timetosleep);
+		ft_usleep(philo->data->timetosleep, philo->data);
 		return (pthread_mutex_unlock(philo->right_fork), NULL);
 	}
 	while (!checkdeath(philo->data))
