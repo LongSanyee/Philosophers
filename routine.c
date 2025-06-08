@@ -65,7 +65,7 @@ void	*routine(void *arg)
 	while (!checkdeath(philo->data))
 	{
 		ft_eat(philo);
-		if (philo->eatcount == philo->data->musteat)
+		if (philo->data->ac == 6 && philo->eatcount == philo->data->musteat)
 		{
 			pthread_mutex_lock(&philo->data->stop);
 			philo->data->mustfinish = 1;

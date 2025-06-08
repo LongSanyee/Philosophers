@@ -44,8 +44,10 @@ void	unlockmutex(t_data *data)
 void	monitorhelp(t_data *data, int i)
 {
 	setisdie(data);
+	pthread_mutex_lock(&data->printlock);
 	printf("%ld %d died\n", getcurrenttime()
 		- data->starttime, data->philos[i].id);
+	pthread_mutex_unlock(&data->printlock);
 	pthread_mutex_unlock(&data->stop);
 	pthread_mutex_unlock(&data->eatmute);
 }
