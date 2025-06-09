@@ -50,3 +50,14 @@ size_t	getcurrenttime(void)
 	gettimeofday(&tv, NULL);
 	return (tv.tv_sec * 1000 + tv.tv_usec / 1000);
 }
+
+void	ft_usleep_bonus(size_t num)
+{
+	size_t	start;
+
+	start = getcurrenttime();
+	while (getcurrenttime() - start < num)
+	{
+		usleep(333);
+	}
+}

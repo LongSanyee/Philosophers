@@ -39,20 +39,30 @@ void	init_bonus(t_data *data, char **av, int ac)
 		data->musteat = ft_atoi(av[5]);
 }
 
+void seminit(t_data *data)
+{
+	data->dead = sem_open("/dead", O_CREAT, 0644, 1);
+	sem_unlink("/forks");
+	data->forks = sem_open("/forks", O_CREAT, 0644, data->numofphilo);
+	data->eat = sem_open("/eat", O_CREAT, 0644, 1);
+	data->print = sem_open("/print", O_CREAT, 0644, 1);
+	data->starttime = getcurrenttime();
+}
+
 void	initdata_bonus(t_data *data)
 {
 	int	i;
 
 	i = -1;
-	data->philos = malloc(data->numofphilo * sizeof(data->philos));
-	if (data->philos)
+	data->philos = malloc(data->numofphilo * sizeof(t_philos));
+	if (!data->philos)
 		return ;
-	data->forks = sem_open("\forks", O_CREAT, 0644, data->numofphilo);
-	data->starttime = getcurrenttime();
+	seminit(data);
 	while (++i < data->numofphilo)
 	{
 		data->philos[i].id = i + 1;
 		data->philos[i].data = data;
 		data->philos[i].lastmeal = data->starttime;
+		data->philos[i].eatcount = 0;
 	}
 }
