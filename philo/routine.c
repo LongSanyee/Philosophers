@@ -6,7 +6,7 @@
 /*   By: rammisse <rammisse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/13 14:33:22 by rammisse          #+#    #+#             */
-/*   Updated: 2025/06/06 01:02:56 by rammisse         ###   ########.fr       */
+/*   Updated: 2025/06/25 16:01:41 by rammisse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,8 +58,6 @@ void	*routine(void *arg)
 	{
 		pthread_mutex_lock(philo->right_fork);
 		printstatus(*philo, "has taken a fork");
-		printstatus(*philo, "died");
-		ft_usleep(philo->data->timetosleep, philo->data);
 		return (pthread_mutex_unlock(philo->right_fork), NULL);
 	}
 	while (!checkdeath(philo->data))
